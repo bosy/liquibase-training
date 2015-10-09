@@ -6,7 +6,7 @@
             http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
     <changeSet id="1" author="bosakrom" runOnChange="true">
-        <loadData file="src/main/resources/dbchangelogs/latest/departments.csv" tableName="departments"/>
+        <loadUpdateData file="src/main/resources/dbchangelogs/latest/departments.csv" tableName="departments" primaryKey="id"/>
     </changeSet>
 
 </databaseChangeLog>
