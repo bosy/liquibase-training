@@ -5,9 +5,14 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
             http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-    <include file="src/main/resources/dbchangelogs/initial/initial.xml"/>
-    <include file="src/main/resources/dbchangelogs/latest/departments.xml"/>
-
-    <include file="src/main/resources/dbchangelogs/updates/change-001.xml"/>
+    <changeSet author="bosakrom" id="1">
+        <preConditions onFail="MARK_RAN">
+            <sqlCheck expectedResult="0">select count(*) from employees</sqlCheck>
+        </preConditions>
+        <sql splitStatements="true">
+            insert into employees (id, ename, salary, dpt_id) values (1, 'King', 1200, 1);
+            insert into employees (id, ename, salary, dpt_id) values (2, 'Smith', 1000, 2);
+        </sql>
+    </changeSet>
 
 </databaseChangeLog>
