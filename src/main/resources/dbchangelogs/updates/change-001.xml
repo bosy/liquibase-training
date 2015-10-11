@@ -15,4 +15,8 @@
         </sql>
     </changeSet>
 
+    <changeSet author="bosakrom" id="2">
+        <tagDatabase tag="1.0"/>
+    </changeSet>
+
 </databaseChangeLog>
