@@ -20,6 +20,18 @@
         <addNotNullConstraint tableName="employees" columnName="fixed_salary" />
         <addNotNullConstraint tableName="employees" columnName="bonus" />
         <dropColumn tableName="employees" columnName="salary" />
+        <rollback>
+            <addColumn tableName="employees">
+                <column name="salary" type="number(6,2)" />
+            </addColumn>
+            <dropNotNullConstraint tableName="employees" columnName="bonus" />
+            <dropNotNullConstraint tableName="employees" columnName="fixed_salary" />
+            <update tableName="employees">
+                <column name="salary" valueNumeric="fixed_salary + bonus"/>
+            </update>
+            <dropColumn tableName="employees" columnName="fixed_salary" />
+            <dropColumn tableName="employees" columnName="bonus" />
+        </rollback>
     </changeSet>
 
 </databaseChangeLog>
