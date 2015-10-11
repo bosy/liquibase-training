@@ -13,24 +13,34 @@
             <column name="fixed_salary" type="number(6,2)" remarks="Monthly gross salary"/>
             <column name="bonus" type="number(6,2)" remarks="On-target monthly bonus"/>
         </addColumn>
+    </changeSet>
+
+    <changeSet author="bosakrom" id="2">
         <update tableName="employees">
             <column name="fixed_salary" valueNumeric="salary * ${fixed_salary_ratio}"/>
             <column name="bonus" valueNumeric="salary * (1 - ${fixed_salary_ratio})"/>
         </update>
+        <rollback>
+            <update tableName="employees">
+                <column name="salary" valueNumeric="fixed_salary + bonus"/>
+            </update>
+        </rollback>
+    </changeSet>
+
+    <changeSet author="bosakrom" id="3">
         <addNotNullConstraint tableName="employees" columnName="fixed_salary" />
+    </changeSet>
+
+    <changeSet author="bosakrom" id="4">
         <addNotNullConstraint tableName="employees" columnName="bonus" />
+    </changeSet>
+
+    <changeSet author="bosakrom" id="5">
         <dropColumn tableName="employees" columnName="salary" />
         <rollback>
             <addColumn tableName="employees">
                 <column name="salary" type="number(6,2)" />
             </addColumn>
-            <dropNotNullConstraint tableName="employees" columnName="bonus" />
-            <dropNotNullConstraint tableName="employees" columnName="fixed_salary" />
-            <update tableName="employees">
-                <column name="salary" valueNumeric="fixed_salary + bonus"/>
-            </update>
-            <dropColumn tableName="employees" columnName="fixed_salary" />
-            <dropColumn tableName="employees" columnName="bonus" />
         </rollback>
     </changeSet>
 
