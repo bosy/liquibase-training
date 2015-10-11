@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+            http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <property name="fixed_salary_ratio" value="0.8" context="prod"/>
+    <property name="fixed_salary_ratio" value="0.9" context="dev"/>
+
+    <changeSet author="bosakrom" id="1">
+        <addColumn tableName="employees">
+            <column name="fixed_salary" type="number(6,2)" remarks="Monthly gross salary"/>
+            <column name="bonus" type="number(6,2)" remarks="On-target monthly bonus"/>
+        </addColumn>
+        <update tableName="employees">
+            <column name="fixed_salary" valueNumeric="salary * ${fixed_salary_ratio}"/>
+            <column name="bonus" valueNumeric="salary * (1 - ${fixed_salary_ratio})"/>
+        </update>
+        <addNotNullConstraint tableName="employees" columnName="fixed_salary" />
+        <addNotNullConstraint tableName="employees" columnName="bonus" />
+        <dropColumn tableName="employees" columnName="salary" />
+    </changeSet>
+
+</databaseChangeLog>

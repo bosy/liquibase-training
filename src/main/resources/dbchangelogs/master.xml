@@ -9,5 +9,6 @@
     <include file="src/main/resources/dbchangelogs/latest/departments.xml"/>
 
     <include file="src/main/resources/dbchangelogs/updates/change-001.xml"/>
+    <include file="src/main/resources/dbchangelogs/updates/change-002.xml"/>
 
 </databaseChangeLog>
